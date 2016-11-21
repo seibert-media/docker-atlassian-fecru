@@ -18,5 +18,12 @@ RUN set -x \
 
 ADD files/entrypoint /usr/local/bin/entrypoint
 
+RUN set -x \
+  && chown -R daemon:daemon /usr/local/bin/entrypoint \
+  && chown -R daemon:daemon /opt/atlassian/fecru \
+  && chown -R daemon:daemon /var/opt/atlassian/application-data/fecru
+
+USER daemon
+
 ENTRYPOINT  ["/usr/local/bin/entrypoint"]
 
