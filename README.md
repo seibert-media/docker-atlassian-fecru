@@ -14,6 +14,13 @@ This is a Docker-Image for Atlassian Fisheye/Crucible based on [Alpine Linux](ht
 ## Ports
 * 8060
 
+## Build conatiner
+Specify the application version in the build command:
+
+```bash
+docker build --build-arg VERSION=x.x.x .                                                        
+```
+
 ## Getting started
 
 Run Fisheye/Crucible standalone and navigate to `http://[dockerhost]:8060` to finish configuration:
@@ -28,8 +35,8 @@ Run Fisheye/Crucible standalone with custom application context and navigate to 
 docker run -tid -p 8060:8060 -e TOMCAT_CONTEXT_PATH="fecru" seibertmedia/atlassian-fecru:latest
 ```
 
-Specify persistent volume for Fisheye/Crucible data directory and redirect application logs to stdout:
+Specify persistent volume for Fisheye/Crucible data directory:
 
 ```bash
-docker run -tid -p 8060:8060 -p 7999:7999 -v fecru_data:/var/opt/atlassian/application-data/fecru seibertmedia/atlassian-fecru:latest
+docker run -tid -p 8060:8060 -v fecru_data:/var/opt/atlassian/application-data/fecru seibertmedia/atlassian-fecru:latest
 ```
