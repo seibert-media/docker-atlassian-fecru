@@ -1,19 +1,19 @@
 #!/bin/bash
 
-if [ "$(stat -c "%Y" "/opt/atlassian/fecru/bin/fisheyectl.sh")" -eq "0" ]; then
-  sed --in-place "s~#!/bin/sh~#!/bin/sh \n FISHEYE_INST=/var/opt/atlassian/application-data/fecru~" /opt/atlassian/fecru/bin/fisheyectl.sh
+if [ "$(stat -c "%Y" "${FECRU_INST}/bin/fisheyectl.sh")" -eq "0" ]; then
+  sed --in-place "s~#!/bin/sh~#!/bin/sh \n FISHEYE_INST=${FECRU_HOME}~" ${FECRU_INST}/bin/fisheyectl.sh
 fi
 
-if [ "$(stat -c "%Y" "/opt/atlassian/fecru/config.xml")" -eq "0" ]; then
+if [ "$(stat -c "%Y" "${FECRU_INST}/config.xml")" -eq "0" ]; then
   if [ -n "${TOMCAT_CONTEXT_PATH}" ]; then
-    xmlstarlet ed --inplace --pf --ps --insert '/config/web-server' --type "attr" --name "context" --value "${TOMCAT_CONTEXT_PATH}" "/opt/atlassian/fecru/config.xml"
+    xmlstarlet ed --inplace --pf --ps --insert '/config/web-server' --type "attr" --name "context" --value "${TOMCAT_CONTEXT_PATH}" "${FECRU_INST}/config.xml"
   fi
 fi
 
-if [ ! -f "/var/opt/atlassian/application-data/fecru/config.xml" ]; then
-  cp /opt/atlassian/fecru/config.xml /var/opt/atlassian/application-data/fecru/config.xml
+if [ ! -f "${FECRU_HOME}/config.xml" ]; then
+  cp ${FECRU_INST}/config.xml ${FECRU_HOME}/config.xml
 fi
 
-nohup /opt/atlassian/fecru/bin/fisheyectl.sh start >/dev/null 2>&1 &
+nohup ${FECRU_INST}/bin/fisheyectl.sh start >/dev/null 2>&1 &
 
 /bin/bash
