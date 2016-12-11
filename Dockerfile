@@ -32,9 +32,11 @@ RUN set -x \
   && touch -d "@0" "$FECRU_INST/config.xml" \
   && touch -d "@0" "$FECRU_INST/bin/fisheyectl.sh"
 
+ADD files/service /usr/local/bin/service
 ADD files/entrypoint /usr/local/bin/entrypoint
 
 RUN set -x \
+  && chown -R daemon:daemon /usr/local/bin/service \
   && chown -R daemon:daemon /usr/local/bin/entrypoint \
   && chown -R daemon:daemon $FECRU_INST \
   && chown -R daemon:daemon $FECRU_HOME
@@ -46,3 +48,5 @@ USER daemon
 VOLUME $FECRU_HOME
 
 ENTRYPOINT  ["/usr/local/bin/entrypoint"]
+
+CMD ["/usr/local/bin/service"]
