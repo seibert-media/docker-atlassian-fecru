@@ -8,6 +8,7 @@ FROM anapsix/alpine-java:8_server-jre
 MAINTAINER //SEIBERT/MEDIA GmbH <docker@seibert-media.net>
 
 ARG VERSION
+ARG MYSQL_JDBC_VERSION
 
 ENV FECRU_INST /opt/atlassian/fecru
 ENV FECRU_HOME /var/opt/atlassian/application-data/fecru
@@ -30,12 +31,17 @@ RUN set -x \
   && chown -R $SYSTEM_USER:$SYSTEM_GROUP /home/$SYSTEM_USER
 
 ADD https://www.atlassian.com/software/fisheye/downloads/binary/fisheye-$VERSION.zip /tmp
+ADD https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-$MYSQL_JDBC_VERSION.tar.gz /tmp
 
 RUN set -x \
   && unzip /tmp/fisheye-$VERSION.zip -d /tmp/ \
   && mv /tmp/fecru-$VERSION/* $FECRU_INST \
   && rm -rf /tmp/fecru-$VERSION \
   && rm /tmp/fisheye-$VERSION.zip
+
+RUN set -x \
+  && tar xvfz /tmp/mysql-connector-java-$MYSQL_JDBC_VERSION.tar.gz mysql-connector-java-$MYSQL_JDBC_VERSION/mysql-connector-java-$MYSQL_JDBC_VERSION-bin.jar -C  $FECRU_INST/lib/ \
+  && rm /tmp/mysql-connector-java-$MYSQL_JDBC_VERSION.tar.gz
 
 RUN set -x \
   && touch -d "@0" "$FECRU_INST/config.xml" \
