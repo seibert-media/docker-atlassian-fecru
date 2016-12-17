@@ -11,6 +11,9 @@ ARG VERSION
 
 ENV FECRU_INST /opt/atlassian/fecru
 ENV FECRU_HOME /var/opt/atlassian/application-data/fecru
+ENV SYSTEM_USER fecru
+ENV SYSTEM_GROUP fecru
+ENV SYSTEM_HOME /home/fecru
 
 RUN set -x \
   && apk add openssh git unzip xmlstarlet --update-cache --allow-untrusted --repository http://dl-cdn.alpinelinux.org/alpine/edge/main --repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
@@ -19,6 +22,12 @@ RUN set -x \
 RUN set -x \
   && mkdir -p $FECRU_INST \
   && mkdir -p $FECRU_HOME
+
+RUN set -x \
+  && mkdir -p /home/$SYSTEM_USER \
+  && addgroup -S $SYSTEM_GROUP \
+  && adduser -S -D -G $SYSTEM_GROUP -h $SYSTEM_GROUP -s /bin/sh $SYSTEM_USER \
+  && chown -R $SYSTEM_USER:$SYSTEM_GROUP /home/$SYSTEM_USER
 
 ADD https://www.atlassian.com/software/fisheye/downloads/binary/fisheye-$VERSION.zip /tmp
 
@@ -36,14 +45,14 @@ ADD files/service /usr/local/bin/service
 ADD files/entrypoint /usr/local/bin/entrypoint
 
 RUN set -x \
-  && chown -R daemon:daemon /usr/local/bin/service \
-  && chown -R daemon:daemon /usr/local/bin/entrypoint \
-  && chown -R daemon:daemon $FECRU_INST \
-  && chown -R daemon:daemon $FECRU_HOME
+  && chown -R $SYSTEM_USER:$SYSTEM_GROUP /usr/local/bin/service \
+  && chown -R $SYSTEM_USER:$SYSTEM_GROUP /usr/local/bin/entrypoint \
+  && chown -R $SYSTEM_USER:$SYSTEM_GROUP $FECRU_INST \
+  && chown -R $SYSTEM_USER:$SYSTEM_GROUP $FECRU_HOME
 
 EXPOSE 8060
 
-USER daemon
+USER $SYSTEM_USER
 
 VOLUME $FECRU_HOME
 
