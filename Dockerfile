@@ -13,7 +13,7 @@ ENV FECRU_INST /opt/atlassian/fecru
 ENV FECRU_HOME /var/opt/atlassian/application-data/fecru
 
 RUN set -x \
-  && apk add git unzip xmlstarlet --update-cache --allow-untrusted --repository http://dl-cdn.alpinelinux.org/alpine/edge/main --repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
+  && apk add openssh git unzip xmlstarlet --update-cache --allow-untrusted --repository http://dl-cdn.alpinelinux.org/alpine/edge/main --repository http://dl-cdn.alpinelinux.org/alpine/edge/community \
   && rm -rf /var/cache/apk/*
 
 RUN set -x \
