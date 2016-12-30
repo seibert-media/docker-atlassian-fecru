@@ -21,45 +21,45 @@ RUN set -x \
   && rm -rf /var/cache/apk/*
 
 RUN set -x \
-  && mkdir -p $FECRU_INST \
-  && mkdir -p $FECRU_HOME
+  && mkdir -p ${FECRU_INST} \
+  && mkdir -p ${FECRU_HOME}
 
 RUN set -x \
-  && mkdir -p /home/$SYSTEM_USER \
-  && addgroup -S $SYSTEM_GROUP \
-  && adduser -S -D -G $SYSTEM_GROUP -h $SYSTEM_GROUP -s /bin/sh $SYSTEM_USER \
-  && chown -R $SYSTEM_USER:$SYSTEM_GROUP /home/$SYSTEM_USER
+  && mkdir -p /home/${SYSTEM_USER} \
+  && addgroup -S ${SYSTEM_GROUP} \
+  && adduser -S -D -G ${SYSTEM_GROUP} -h ${SYSTEM_GROUP} -s /bin/sh ${SYSTEM_USER} \
+  && chown -R ${SYSTEM_USER}:${SYSTEM_GROUP} /home/${SYSTEM_USER}
 
 RUN set -x \
-  && wget -O /tmp/fisheye-$VERSION.zip https://www.atlassian.com/software/fisheye/downloads/binary/fisheye-$VERSION.zip \
-  && unzip /tmp/fisheye-$VERSION.zip -d /tmp/ \
-  && mv /tmp/fecru-$VERSION/* $FECRU_INST \
-  && rm -rf /tmp/fecru-$VERSION \
-  && rm /tmp/fisheye-$VERSION.zip
+  && wget -O /tmp/fisheye-${VERSION}.zip https://www.atlassian.com/software/fisheye/downloads/binary/fisheye-${VERSION}.zip \
+  && unzip /tmp/fisheye-${VERSION}.zip -d /tmp/ \
+  && mv /tmp/fecru-${VERSION}/* ${FECRU_INST} \
+  && rm -rf /tmp/fecru-${VERSION} \
+  && rm /tmp/fisheye-${VERSION}.zip
 
 RUN set -x \
-  && wget -O /tmp/mysql-connector-java-$MYSQL_JDBC_VERSION.tar.gz https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-$MYSQL_JDBC_VERSION.tar.gz \
-  && tar xfz /tmp/mysql-connector-java-$MYSQL_JDBC_VERSION.tar.gz mysql-connector-java-$MYSQL_JDBC_VERSION/mysql-connector-java-$MYSQL_JDBC_VERSION-bin.jar -C $FECRU_INST/lib/ \
-  && rm /tmp/mysql-connector-java-$MYSQL_JDBC_VERSION.tar.gz
+  && wget -O /tmp/mysql-connector-java-${MYSQL_JDBC_VERSION}.tar.gz https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-${MYSQL_JDBC_VERSION}.tar.gz \
+  && tar xfz /tmp/mysql-connector-java-${MYSQL_JDBC_VERSION}.tar.gz mysql-connector-java-${MYSQL_JDBC_VERSION}/mysql-connector-java-${MYSQL_JDBC_VERSION}-bin.jar -C ${FECRU_INST}/lib/ \
+  && rm /tmp/mysql-connector-java-${MYSQL_JDBC_VERSION}.tar.gz
 
 RUN set -x \
-  && touch -d "@0" "$FECRU_INST/config.xml" \
-  && touch -d "@0" "$FECRU_INST/bin/fisheyectl.sh"
+  && touch -d "@0" "${FECRU_INST}/config.xml" \
+  && touch -d "@0" "${FECRU_INST}/bin/fisheyectl.sh"
 
 ADD files/service /usr/local/bin/service
 ADD files/entrypoint /usr/local/bin/entrypoint
 
 RUN set -x \
-  && chown -R $SYSTEM_USER:$SYSTEM_GROUP /usr/local/bin/service \
-  && chown -R $SYSTEM_USER:$SYSTEM_GROUP /usr/local/bin/entrypoint \
-  && chown -R $SYSTEM_USER:$SYSTEM_GROUP $FECRU_INST \
-  && chown -R $SYSTEM_USER:$SYSTEM_GROUP $FECRU_HOME
+  && chown -R ${SYSTEM_USER}:${SYSTEM_GROUP} /usr/local/bin/service \
+  && chown -R ${SYSTEM_USER}:${SYSTEM_GROUP} /usr/local/bin/entrypoint \
+  && chown -R ${SYSTEM_USER}:${SYSTEM_GROUP} ${FECRU_INST} \
+  && chown -R ${SYSTEM_USER}:${SYSTEM_GROUP} ${FECRU_HOME}
 
 EXPOSE 8060
 
-USER $SYSTEM_USER
+USER ${SYSTEM_USER}
 
-VOLUME $FECRU_HOME
+VOLUME ${FECRU_HOME}
 
 ENTRYPOINT ["/usr/local/bin/entrypoint"]
 
