@@ -31,14 +31,14 @@ RUN set -x \
   && chown -R ${SYSTEM_USER}:${SYSTEM_GROUP} /home/${SYSTEM_USER}
 
 RUN set -x \
-  && wget -O /tmp/fisheye-${VERSION}.zip https://www.atlassian.com/software/fisheye/downloads/binary/fisheye-${VERSION}.zip \
+  && wget -nv -O /tmp/fisheye-${VERSION}.zip https://www.atlassian.com/software/fisheye/downloads/binary/fisheye-${VERSION}.zip \
   && unzip /tmp/fisheye-${VERSION}.zip -d /tmp/ \
   && mv /tmp/fecru-${VERSION}/* ${FECRU_INST} \
   && rm -rf /tmp/fecru-${VERSION} \
   && rm /tmp/fisheye-${VERSION}.zip
 
 RUN set -x \
-  && wget -O /tmp/mysql-connector-java-${MYSQL_JDBC_VERSION}.tar.gz https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-${MYSQL_JDBC_VERSION}.tar.gz \
+  && wget -nv -O /tmp/mysql-connector-java-${MYSQL_JDBC_VERSION}.tar.gz https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-${MYSQL_JDBC_VERSION}.tar.gz \
   && tar xfz /tmp/mysql-connector-java-${MYSQL_JDBC_VERSION}.tar.gz mysql-connector-java-${MYSQL_JDBC_VERSION}/mysql-connector-java-${MYSQL_JDBC_VERSION}-bin.jar -C ${FECRU_INST}/lib/ \
   && rm /tmp/mysql-connector-java-${MYSQL_JDBC_VERSION}.tar.gz
 
