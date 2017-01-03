@@ -1,0 +1,3 @@
+#!/bin/bash
+
+${FECRU_INST}/bin/fisheyectl.sh run
