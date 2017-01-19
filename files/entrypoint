@@ -6,7 +6,7 @@ fi
 
 if [ "$(stat -c "%Y" "${FECRU_INST}/config.xml")" -eq "0" ]; then
   if [ -n "${TOMCAT_CONTEXT_PATH}" ]; then
-    xmlstarlet ed --inplace --pf --ps --insert '/config/web-server' --type "attr" --name "context" --value "${TOMCAT_CONTEXT_PATH}" "${FECRU_INST}/config.xml"
+    xmlstarlet ed --inplace --insert '/config/web-server' --type "attr" --name "context" --value "${TOMCAT_CONTEXT_PATH}" "${FECRU_INST}/config.xml"
   fi
 fi
 
