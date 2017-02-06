@@ -6,7 +6,6 @@ This is a Docker-Image for Atlassian Fisheye/Crucible based on [Alpine Linux](ht
 
 * Small image size
 * Setting application context path
-* Includes MySQL JDBC driver
 
 ## Variables
 
@@ -19,7 +18,7 @@ This is a Docker-Image for Atlassian Fisheye/Crucible based on [Alpine Linux](ht
 Specify the application version in the build command:
 
 ```bash
-docker build --build-arg VERSION=x.x.x --build-arg MYSQL_JDBC_VERSION=5.1.40 .                                                        
+docker build --build-arg VERSION=x.x.x .                                                        
 ```
 
 ## Getting started
