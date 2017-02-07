@@ -9,7 +9,7 @@ ATLASSIAN_VERSION=${ATLASSIAN_VERSION:-""}
 if [ -n "${ATLASSIAN_VERSION}" ]; then
     atlassian_version=${ATLASSIAN_VERSION}
 else
-    atlassian_version="$(curl -s https://my.atlassian.com/download/feeds/fecru.rss | grep -Po "(\d{1,2}\.){2,3}\d" | uniq)"
+    atlassian_version="$(curl -s https://my.atlassian.com/download/feeds/fisheye.rss | grep -Po "(\d{1,2}\.){2,3}\d" | uniq)"
 fi
 
 branch=$(git rev-parse --abbrev-ref HEAD)
